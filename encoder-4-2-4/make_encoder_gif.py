@@ -120,7 +120,7 @@ def main():
     p.add_argument("--epochs", type=int, default=400)
     p.add_argument("--snapshot-every", type=int, default=5)
     p.add_argument("--fps", type=int, default=12)
-    p.add_argument("--seed", type=int, default=2)
+    p.add_argument("--seed", type=int, default=0)
     p.add_argument("--out", type=str, default="encoder.gif")
     p.add_argument("--hold-final", type=int, default=20,
                    help="Repeat the last frame this many times.")

@@ -54,10 +54,11 @@ python3 make_encoder_gif.py  --epochs 400 --seed 2 --snapshot-every 5 --fps 12
 | Metric | Value |
 |---|---|
 | Final accuracy | 100% (4/4) |
-| Hidden codes | `(0,1), (1,1), (1,0), (0,0)` — the 4 corners of `{0,1}^2` |
-| Restarts | 1 (plateau at 75% accuracy from epoch ~100, restart at epoch 201, converged by ~350) |
+| Hidden codes | 4 distinct corners of `{0,1}^2` (specific permutation depends on seed) |
+| Restarts (seed 0) | 2 (epoch 80, epoch 160), converged by ~220 |
 | Training time | ~1 sec |
 | Hyperparameters | k=5, lr=0.05, momentum=0.5, batch_repeats=8, init_scale=0.1 |
+| Multi-restart success rate | ~65% across 30 random seeds at 400 epochs / 5 attempts |
 
 ## What the network actually learns
 
@@ -85,19 +86,24 @@ code.
 
 ![training curves](viz/training_curves.png)
 
-The vertical red dashed line at epoch 201 marks a **restart** triggered by
-the plateau detector. The network had been stuck at 75% accuracy — three
-patterns had distinct codes and the fourth had collapsed onto one of them.
-Reinitializing the weights and continuing training produces the correct
-4-corner solution.
+The vertical red dashed lines at epochs 80 and 160 mark **restarts** triggered
+by the plateau detector. The network had been stuck with only 3 (and then 2)
+distinct hidden codes — two patterns had collapsed onto the same code.
+Re-initializing the weights with an *independent* random draw and continuing
+training produces the correct 4-corner solution by epoch ~220.
 
 The four panels track:
-- **Reconstruction accuracy**: clamp `V1`, sample `V2`, count `argmax` matches.
-- **Hidden-code separation**: mean pairwise L2 distance between the 4 hidden
-  codes — converges to ≈ 1.13, slightly above the unit-square diagonal `√2`,
-  reflecting saturation past the binary corners.
-- **Weight norm**: `‖W‖_F` grows roughly linearly during convergence.
-- **Reconstruction MSE**: mean-squared error of the predicted `V2`.
+- **Reconstruction accuracy**: argmax of the *exact* marginal `p(V2 | V1)`,
+  computed by enumerating the 4 hidden states (deterministic — no Gibbs
+  noise). Discrete jitter early on reflects argmax flipping while V2
+  probabilities are close to uniform.
+- **Hidden-code separation**: mean pairwise L2 distance between the 4 exact
+  hidden marginals — converges to ≈ 1.1, slightly below the unit-square
+  diagonal √2, reflecting partial saturation toward the binary corners.
+- **Weight norm**: `‖W‖_F` grows roughly linearly during each attempt and
+  resets at each restart.
+- **Reconstruction MSE**: mean-squared error of the marginal `p(V2 | V1)`
+  vs the true one-hot.
 
 ## Deviations from the 1985 procedure
 
@@ -111,14 +117,61 @@ The four panels track:
    patterns collapse onto the same hidden code; we detect this via an
    accuracy plateau and restart with fresh weights.
 
+## Correctness notes
+
+A few subtleties worth flagging:
+
+1. **Sampled vs exact evaluation.** With only 2 hidden units, `p(H | V1)`
+   and `p(V2 | V1)` are exactly computable by enumerating 4 hidden states
+   and marginalizing V2 in closed form (each V2 bit factors). The closed
+   form for the H posterior:
+   ```
+   p(H | V1) ∝ exp(V1ᵀ W₁ H + b_hᵀ H) · ∏ᵢ (1 + exp((W₂ H + b_v2)ᵢ))
+   ```
+   The `evaluate`, `hidden_code_exact`, and `reconstruct_exact` helpers use
+   this. An earlier sampled-Gibbs version of the same metrics had σ ≈ 6.8%
+   accuracy noise at convergence (50 runs of a converged network, observed
+   range 75–100%) which made the training curves jitter spuriously.
+   `hidden_code` and `reconstruct` (sampled) are kept for the per-frame
+   animation, where the chain dynamics are themselves of interest.
+
+2. **Per-attempt success rate is fundamental.** Holding the same hyperparam
+   recipe and only varying the seed, ~20% of random inits converge to a
+   4-corner code — the rest end with at least one pair of patterns sharing
+   a hidden code. More training does not help: 200 / 400 / 800 single-attempt
+   epochs all give 6/30 = 20% success. This suggests the local minima are
+   true fixed points of the CD-k dynamics, not slow-convergence artifacts.
+
+3. **Restart RNG independence matters.** An earlier version sampled the
+   restart's W from the same `rbm.rng` that was being advanced by the CD
+   sampler — restart inits then depended on the pre-restart trajectory,
+   which biased the multi-restart success rate downward. The current code
+   uses `np.random.SeedSequence(seed).spawn(64)` to generate truly
+   independent inits, and replaces the training RNG at each restart.
+
+4. **Plateau signal.** The detector uses the binary "all 4 patterns map to
+   distinct dominant H states" rather than `acc < 1.0`. Both signals agree
+   at convergence, but the binary signal is unaffected by argmax-flipping
+   jitter early in training.
+
+5. **`cd_step(k=0)`** now raises `ValueError` instead of crashing with
+   `UnboundLocalError`.
+
 ## Open questions / next experiments
 
-- Does the convergence rate (in number of weight updates) under CD-k come
-  close to the 250/250 ≈ 110-cycle median reported in the 1985 paper for
-  full simulated annealing?
-- Can we eliminate the local-minima problem entirely by switching to PCD or
-  by adding a small temperature schedule to the Gibbs sampler?
+- The 1985 paper reports 250/250 convergence with full simulated annealing.
+  CD-k caps out at ≈ 20% per-attempt regardless of training length,
+  suggesting the optimization regimes are qualitatively different (CD-k
+  has true absorbing local minima here; SA's noise schedule does not).
+  Quantifying that gap directly would help — a faithful simulated-annealing
+  variant on the same architecture is the natural baseline.
+- Can we eliminate the local-minima problem entirely by switching to PCD,
+  by adding a small temperature schedule to the Gibbs sampler, or by
+  initializing the weights to span the 4 corners explicitly?
 - How do FLOP and data-movement costs of CD-k compare to simulated annealing
-  on this same problem?
+  on this same problem? CD-k wins on per-step cost but loses on per-attempt
+  success rate.
 - Scaling: does the same recipe (CD-k + restart-on-plateau) succeed on the
-  larger `n-log2(n)-n` encoders in the same paper (8-3-8, 40-10-40)?
+  larger `n-log2(n)-n` encoders in the same paper (8-3-8, 40-10-40)? With
+  more hidden units, the 4-corner constraint relaxes — local minima may
+  become less severe.

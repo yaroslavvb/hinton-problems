@@ -134,7 +134,7 @@ def plot_hidden_codes(rbm: EncoderRBM, out_path: str):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--epochs", type=int, default=400)
-    p.add_argument("--seed", type=int, default=2)
+    p.add_argument("--seed", type=int, default=0)
     p.add_argument("--outdir", type=str, default="viz")
     args = p.parse_args()
 
