@@ -8,13 +8,15 @@ Each problem lives in its own folder containing:
 
 The catalog focuses on **synthetic toy problems** Hinton (or close collaborators) designed to isolate a representational property — the lineage from the 4-2-4 encoder (1985) through the shifter (1986), bars (1995), MultiMNIST (2017), Constellations (2019), Ellipse World (2022), and the Forward-Forward suite (2022). Folders are flat; the catalog below is grouped by year for readability.
 
+> **Worked example:** [`encoder-4-2-4/`](encoder-4-2-4/) is filled out — bipartite RBM trained with CD-5, an animated GIF of training, and full training curves. Use it as a template for the other stubs.
+
 ## Catalog
 
 ### 1980s — Connectionist foundations
 
 **Ackley, Hinton & Sejnowski (1985)** — A learning algorithm for Boltzmann machines
 - [encoder-3-parity](encoder-3-parity/) — 3-bit even-parity, visible-only Boltzmann
-- [encoder-4-2-4](encoder-4-2-4/) — 2-bit Boltzmann bottleneck
+- [encoder-4-2-4](encoder-4-2-4/) — **(implemented)** 2-bit Boltzmann bottleneck
 - [encoder-4-3-4](encoder-4-3-4/) — over-complete error-correcting code
 - [encoder-8-3-8](encoder-8-3-8/) — theoretical-minimum hidden capacity
 - [encoder-40-10-40](encoder-40-10-40/) — large-scale Boltzmann encoder
