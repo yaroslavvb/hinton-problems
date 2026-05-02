@@ -1,0 +1,39 @@
+{
+  "config": {
+    "seed": 0,
+    "n_balls": 2,
+    "h": 16,
+    "w": 16,
+    "ball_radius": 1.5,
+    "speed": 1.0,
+    "n_sequences": 60,
+    "seq_len": 50,
+    "n_hidden": 200,
+    "n_lag": 2,
+    "n_epochs": 50,
+    "lr": 0.05,
+    "batch_size": 10,
+    "momentum": 0.5,
+    "decay": 0.0001,
+    "init_scale": 0.01,
+    "n_seed_frames": 10,
+    "n_future": 20,
+    "k_gibbs": 5,
+    "feedback": "sample",
+    "results_json": "results.json"
+  },
+  "env": {
+    "python": "3.12.9",
+    "numpy": "2.2.5",
+    "platform": "macOS-26.3-arm64-arm-64bit",
+    "processor": "arm",
+    "git_commit": "8cc932420b57e0301ac4a43902d25466bd5bc962"
+  },
+  "train_secs": 6.172875165939331,
+  "rollout_mse_single_seq": 0.049667179584503174,
+  "rollout_mse_20seq_avg": 0.06723870094865561,
+  "rollout_mse_20seq_std": 0.03293055906462228,
+  "mean_frame_baseline_mse": 0.050208667479455474,
+  "last_frame_baseline_mse": 0.09725585952401161,
+  "final_recon_mse": 0.026833644391347968
+}

@@ -1,26 +1,17 @@
 """
 Three bouncing balls (Sutskever, Hinton & Taylor 2008).
+
+This module preserves the original stub signatures and re-exports the
+working implementations from ``bouncing_balls_3.py`` so any code that
+imports ``problem`` keeps working.
 """
 
-import numpy as np
+from bouncing_balls_3 import (  # noqa: F401  (re-export)
+    build_rtrbm,
+    rollout,
+    simulate_balls,
+    train,
+)
 
 
-def simulate_balls(n_steps: int = 100, n_balls: int = 3, h: int = 30, w: int = 30):
-    raise NotImplementedError
-
-
-def build_rtrbm(n_visible: int, n_hidden: int):
-    """Recurrent connections between hidden states across timesteps."""
-    raise NotImplementedError
-
-
-def train(model, sequences, n_epochs: int, lr: float):
-    raise NotImplementedError
-
-
-def rollout(model, init_frames, n_future: int) -> np.ndarray:
-    raise NotImplementedError
-
-
-if __name__ == "__main__":
-    pass
+__all__ = ["simulate_balls", "build_rtrbm", "train", "rollout"]
