@@ -22,7 +22,7 @@ The catalog focuses on **synthetic toy problems** Hinton (or close collaborators
 - [encoder-40-10-40](encoder-40-10-40/) — large-scale Boltzmann encoder
 
 **Hinton & Sejnowski (1986)** — Learning and relearning in Boltzmann machines
-- [shifter](shifter/) — shift-direction inference (the canonical higher-order-feature toy)
+- [shifter](shifter/) — **(implemented)** shift-direction inference (the canonical higher-order-feature toy)
 - [grapheme-sememe](grapheme-sememe/) — synthetic word reading + lesion / relearning
 
 **Rumelhart, Hinton & Williams (1986)** — Learning internal representations by error propagation
