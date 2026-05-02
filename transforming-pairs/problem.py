@@ -1,29 +1,25 @@
 """
-Image-pair transformations with a gated conditional RBM
-(Memisevic & Hinton 2007).
+Stub-spec interface for the transforming-pairs problem.
+
+Implementation lives in `transforming_pairs.py`. This shim keeps the
+spec-mandated function names available for tools that import them.
 """
 
-import numpy as np
+from transforming_pairs import (
+    generate_transformed_pairs,
+    build_gated_rbm,
+    train,
+    visualize_transformation_filters,
+)
 
-
-def generate_transformed_pairs(n_samples: int, h: int = 13, w: int = 13,
-                                transforms: tuple = ("shift", "rotate")):
-    """Random (x, y) pairs where y = transform(x) under a random transformation."""
-    raise NotImplementedError
-
-
-def build_gated_rbm(n_in: int, n_out: int, n_hidden: int, n_factors: int):
-    """Three-way: V_in x V_out x H factored into V_in x F, V_out x F, H x F."""
-    raise NotImplementedError
-
-
-def train(model, data, n_epochs: int, lr: float):
-    raise NotImplementedError
-
-
-def visualize_transformation_filters(model):
-    raise NotImplementedError
+__all__ = [
+    "generate_transformed_pairs",
+    "build_gated_rbm",
+    "train",
+    "visualize_transformation_filters",
+]
 
 
 if __name__ == "__main__":
-    pass
+    from transforming_pairs import main
+    main()
