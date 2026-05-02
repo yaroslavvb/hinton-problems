@@ -1,0 +1,29 @@
+[load] MNIST...
+[load] train=(60000, 784) test=(10000, 784)
+[model] sizes=(784, 500, 500, 10) damping=0.7 threshold=1.0 init_scale=1.0
+[train] epochs=20 batch=256 lr=0.003 n_iters=8
+  epoch  1/20  loss=0.5734  test_err=25.70%  t=11.0s
+  epoch  2/20  loss=0.4716  test_err=17.50%  t=21.9s
+  epoch  3/20  loss=0.4496  test_err=17.40%  t=32.9s
+  epoch  4/20  loss=0.4336  test_err=14.85%  t=44.3s
+  epoch  5/20  loss=0.4202  test_err=14.50%  t=54.9s
+  epoch  6/20  loss=0.4069  test_err=12.80%  t=64.8s
+  epoch  7/20  loss=0.3937  test_err=14.35%  t=74.6s
+  epoch  8/20  loss=0.3825  test_err=13.90%  t=84.1s
+  epoch  9/20  loss=0.3738  test_err=13.65%  t=93.9s
+  epoch 10/20  loss=0.3671  test_err=13.20%  t=103.9s
+  epoch 11/20  loss=0.3600  test_err=13.10%  t=115.0s
+  epoch 12/20  loss=0.3543  test_err=14.95%  t=124.7s
+  epoch 13/20  loss=0.3496  test_err=13.80%  t=134.7s
+  epoch 14/20  loss=0.3454  test_err=12.05%  t=147.9s
+  epoch 15/20  loss=0.3405  test_err=12.65%  t=157.7s
+  epoch 16/20  loss=0.3378  test_err=13.35%  t=169.2s
+  epoch 17/20  loss=0.3349  test_err=12.40%  t=180.5s
+  epoch 18/20  loss=0.3299  test_err=12.50%  t=194.4s
+  epoch 19/20  loss=0.3300  test_err=11.65%  t=206.2s
+  epoch 20/20  loss=0.3301  test_err=13.40%  t=216.2s
+[eval] full test set...
+[result] final test error: 10.66% (acc 89.34%)
+[result] training wallclock: 216.2s
+[result] saved model -> viz/model.npz
+[result] wrote viz/results.json
