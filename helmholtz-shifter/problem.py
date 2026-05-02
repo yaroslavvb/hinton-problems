@@ -1,27 +1,25 @@
 """
-Helmholtz-machine shifter (Dayan, Hinton, Neal & Zemel 1995).
+Stub-spec interface for the Helmholtz-shifter problem.
+
+Implementation lives in `helmholtz_shifter.py`. This shim keeps the
+spec-mandated function names available for tools that import them.
 """
 
-import numpy as np
+from helmholtz_shifter import (
+    generate_shifter as generate_dataset,
+    build_helmholtz_machine,
+    wake_sleep,
+    inspect_layer3_units,
+)
 
-
-def generate_dataset(n_samples: int, w: int = 8):
-    """4x8 patterns; row 0 random, row 3 shifted, rows 1-2 duplicates."""
-    raise NotImplementedError
-
-
-def build_helmholtz_machine(n_visible: int, n_hidden_2: int, n_hidden_3: int = 1):
-    raise NotImplementedError
-
-
-def wake_sleep(model, data, n_passes: int, lr: float):
-    raise NotImplementedError
-
-
-def inspect_layer3_units(model):
-    """After training, expect shift-direction-selective units."""
-    raise NotImplementedError
+__all__ = [
+    "generate_dataset",
+    "build_helmholtz_machine",
+    "wake_sleep",
+    "inspect_layer3_units",
+]
 
 
 if __name__ == "__main__":
-    pass
+    from helmholtz_shifter import main
+    main()
