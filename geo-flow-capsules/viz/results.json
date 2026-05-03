@@ -1,0 +1,36 @@
+{
+  "config": {
+    "seed": 0,
+    "n_shapes": 3,
+    "resolution": 64,
+    "n_test": 120,
+    "n_iters": 30,
+    "n_restarts": 3,
+    "sigma_flow": 0.8,
+    "sigma_xy_init": 14.0,
+    "max_translation": 5.0,
+    "max_rotation": 0.2,
+    "scale_jitter": 0.1,
+    "outdir": "viz"
+  },
+  "mean_iou": 0.7663690218633044,
+  "median_iou": 0.6871165294379957,
+  "per_shape_iou_mean": [
+    0.8143998264148735,
+    0.6780061840145511,
+    0.8067010551604884
+  ],
+  "per_shape_iou_std": [
+    0.3641585740287403,
+    0.4452493629307413,
+    0.37111531939686027
+  ],
+  "n_pairs": 120,
+  "env": {
+    "python": "3.12.9",
+    "numpy": "2.2.5",
+    "platform": "macOS-26.3-arm64-arm-64bit",
+    "processor": "arm",
+    "git_commit": "8cc932420b57e0301ac4a43902d25466bd5bc962"
+  }
+}
