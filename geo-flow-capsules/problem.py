@@ -1,27 +1,29 @@
 """
 Geo / Geo+ moving 2D shapes for flow capsules
 (Sabour, Tagliasacchi, Yazdani, Hinton & Fleet 2021).
+
+Spec-compatible re-export shim. The implementation lives in
+`geo_flow_capsules.py`; we expose the four required entry points here.
 """
 
-import numpy as np
+from geo_flow_capsules import (
+    build_flow_capsule_net,
+    fit_flow_capsules,
+    generate_geo_pair,
+    part_segmentation_iou,
+    train_unsupervised,
+)
 
 
-def generate_geo_pair(h: int = 64, w: int = 64, n_shapes: int = 3):
-    """Render two consecutive frames with known affine flow + ground-truth flow map."""
-    raise NotImplementedError
-
-
-def build_flow_capsule_net():
-    raise NotImplementedError
-
-
-def train_unsupervised(model, data, n_steps: int, lr: float):
-    raise NotImplementedError
-
-
-def part_segmentation_iou(model, data) -> float:
-    raise NotImplementedError
+__all__ = [
+    "build_flow_capsule_net",
+    "fit_flow_capsules",
+    "generate_geo_pair",
+    "part_segmentation_iou",
+    "train_unsupervised",
+]
 
 
 if __name__ == "__main__":
-    pass
+    from geo_flow_capsules import main as _main
+    _main()

@@ -1,23 +1,22 @@
 """
-Train on translated MNIST, test on affNIST (Sabour, Frosst & Hinton 2017).
+Train on translated MNIST, test on affNIST (Sabour, Frosst & Hinton 2017,
+"Dynamic routing between capsules"). The full implementation lives in
+`affnist.py`; this file forwards the spec-required entry points so
+`from problem import *` is enough to import the working pieces.
 """
-
-import numpy as np
-
-
-def make_translated_mnist(mnist, max_shift: int = 6):
-    """Pad to 40x40, randomly translate each digit by up to max_shift pixels."""
-    raise NotImplementedError
-
-
-def load_affnist_test():
-    """Load affNIST 40x40 test set."""
-    raise NotImplementedError
-
-
-def evaluate_robustness(model, train_data, test_data) -> dict:
-    raise NotImplementedError
+from affnist import (
+    make_translated_mnist,
+    load_affnist_test,
+    evaluate_robustness,
+    train,
+    evaluate,
+    TinyCapsNet,
+    TinyCNN,
+    load_mnist,
+    synthesize_affnist,
+)
 
 
 if __name__ == "__main__":
-    pass
+    from affnist import main
+    main()
