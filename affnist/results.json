@@ -1,0 +1,69 @@
+{
+  "args": {
+    "seed": 0,
+    "n_epochs": 5,
+    "arch": "both",
+    "n_train": 5000,
+    "batch_size": 64,
+    "lr": 0.001,
+    "max_shift": 6,
+    "n_test": 2000,
+    "out": "results.json"
+  },
+  "env": {
+    "python": "3.12.9",
+    "numpy": "2.2.5",
+    "platform": "macOS-26.3-arm64-arm-64bit",
+    "processor": "arm"
+  },
+  "affnist_source": "synth",
+  "models": {
+    "capsnet": {
+      "params": 134976,
+      "wall_train": 102.58481025695801,
+      "translated_mnist_acc": 0.9045,
+      "affnist_acc": 0.855,
+      "history": {
+        "step": [
+          100,
+          200,
+          300
+        ],
+        "loss": [
+          0.38676741823459554,
+          0.2513500427016365,
+          0.17081980363691845
+        ],
+        "val_acc": [
+          0.492,
+          0.825,
+          0.887
+        ]
+      }
+    },
+    "cnn": {
+      "params": 168522,
+      "wall_train": 117.03352308273315,
+      "translated_mnist_acc": 0.929,
+      "affnist_acc": 0.875,
+      "history": {
+        "step": [
+          100,
+          200,
+          300
+        ],
+        "loss": [
+          0.8549155711360198,
+          0.22947866845260512,
+          0.20488146947205443
+        ],
+        "val_acc": [
+          0.754,
+          0.89,
+          0.926
+        ]
+      }
+    }
+  },
+  "robustness_gap_capsnet_minus_cnn": -0.020000000000000018
+}
